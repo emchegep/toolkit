@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Notifications\Notification;
@@ -49,9 +50,9 @@ class User extends Authenticatable
         ];
     }
 
-    public function employers(): HasMany
+    public function employer(): HasOne
     {
-        return $this->hasMany(Employer::class, 'user_id');
+        return $this->hasOne(Employer::class, 'user_id');
     }
 
     public function roles(): BelongsToMany
