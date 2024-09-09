@@ -11,17 +11,62 @@
         <a href="{{ route('home') }}" wire:navigate>Jobs</a>
         <a href="">Careers</a>
         <a href="">Employers</a>
-        <a href="{{ route('job.create') }}" wire:navigate>Post a Job</a>
+        <a href="{{ route('jobs.create') }}" wire:navigate>Post a Job</a>
 
     </div>
     <div class="flex items-center space-x-2">
         @auth
-            <div>
-                <button wire:click="logout" class="w-full text-start">
-                    {{ __('Log Out') }}
-                </button>
+            <div class="flex items-center space-x-2">
+                <div>
+                    <button
+                        id="dropdownDefaultButton"
+                        data-dropdown-toggle="dropdown"
+                        type="button"
+                        class="relative inline-flex items-center"
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-8">
+                            <path fill-rule="evenodd" d="M5.25 9a6.75 6.75 0 0 1 13.5 0v.75c0 2.123.8 4.057 2.118 5.52a.75.75 0 0 1-.297 1.206c-1.544.57-3.16.99-4.831 1.243a3.75 3.75 0 1 1-7.48 0 24.585 24.585 0 0 1-4.831-1.244.75.75 0 0 1-.298-1.205A8.217 8.217 0 0 0 5.25 9.75V9Zm4.502 8.9a2.25 2.25 0 1 0 4.496 0 25.057 25.057 0 0 1-4.496 0Z" clip-rule="evenodd" />
+                        </svg>
+                        <span class="sr-only">Notifications</span>
+                        @if(auth()->user()->unreadNotifications->count() > 0)
+                            <div class="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full -top-2 -end-2 dark:border-gray-900">
+                                {{ auth()->user()->unreadNotifications->count() }}
+                            </div>
+                        @endif
+                    </button>
+                    <div id="dropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-80 dark:bg-gray-700">
+                        <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
+                            @if(auth()->user()->unreadNotifications->count() > 0 )
+                                <li>
+                                    <a href="{{ route('admin.notifications.mark-as-read') }}" class="block px-4 py-2 hover:bg-gray-100 text-green-500">Mark All as Read</a>
+                                </li>
+                            @endif
+
+                            @foreach(auth()->user()->unreadNotifications as $notification)
+                                    <li>
+                                        <a href="{{ route('jobs.show',$notification->data['job_id']) }}"
+                                           class="block px-4 py-2 font-bold hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                                            {{ $notification->data['title'] }}
+                                        </a>
+                                    </li>
+                            @endforeach
+                                <hr>
+                                @foreach(auth()->user()->readNotifications as $notification)
+                                    <li>
+                                        <a href="{{ route('jobs.show',$notification->data['job_id']) }}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                                            {{ $notification->data['title']}}</a>
+                                    </li>
+                                @endforeach
+                        </ul>
+                    </div>
+                </div>
+               <div>
+                   <button wire:click="logout" class="text-start">
+                       {{ __('Log Out') }}
+                   </button>
+               </div>
             </div>
-            
+
         @endauth
         @guest
             @if(Route::has('login'))

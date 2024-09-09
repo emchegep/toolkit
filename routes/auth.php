@@ -1,9 +1,11 @@
 <?php
 
 use App\Http\Controllers\Auth\VerifyEmailController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Middleware\Admin;
 use App\Livewire\Auth\Login;
 use App\Livewire\Auth\Register;
+use App\Livewire\Chat;
 use App\Livewire\User\Job\Index;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
@@ -39,5 +41,10 @@ Route::middleware('auth')->group(function () {
 Route::middleware(['auth', Admin::class])->prefix('admin')->as('admin.')->group(function () {
      Route::get('/dashboard',App\Livewire\User\Index::class)->name('dashboard');
 
-     Route::get('/jobs', Index::class)->name('jobs');
+    Route::get('/jobs', Index::class)->name('jobs');
+
+    Route::get('/notifications', \App\Livewire\Notification::class)->name('notifications');
+    Route::get('/chat', Chat::class)->name('chat');
+    Route::get('/notifications/mark-as-read', [NotificationController::class, 'markAllAsRead'])->name('notifications.mark-as-read');
+
 });

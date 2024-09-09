@@ -18,8 +18,8 @@ class JobChannel
     /**
      * Authenticate the user's access to the channel.
      */
-    public function join(User $user, Job $job): array|bool
+    public function join(): array|bool
     {
-        return $user->employer->id === $job->employer_id;
+        return true;
     }
 }

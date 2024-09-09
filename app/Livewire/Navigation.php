@@ -14,9 +14,9 @@ class Navigation extends Component
     public function logout(Logout $logout, RecordActivity $activity): void
     {
         $activity('logged out of the system');
-        
+
         $logout();
-        
+
         $this->redirect('/', navigate: true);
     }
     public function render()

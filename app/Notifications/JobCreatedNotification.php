@@ -4,12 +4,14 @@ namespace App\Notifications;
 
 use App\Models\Job;
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Notifications\Messages\BroadcastMessage;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Messages\VonageMessage;
 use Illuminate\Notifications\Notification;
 
-class JobCreatedNotification extends Notification
+class JobCreatedNotification extends Notification implements ShouldBroadcast
 {
     use Queueable;
 
@@ -28,7 +30,7 @@ class JobCreatedNotification extends Notification
      */
     public function via(object $notifiable): array
     {
-        return ['mail','database','vonage'];
+        return ['database','broadcast'];
     }
 
     /**
@@ -65,6 +67,25 @@ class JobCreatedNotification extends Notification
     }
 
     /**
+     * Get the broadcastable representation of the notification.
+     */
+    public function toBroadcast(object $notifiable): BroadcastMessage
+    {
+        return new BroadcastMessage([
+            'id' => $this->job->id,
+            'title' => $this->job->title,
+        ]);
+    }
+
+    /**
+     * Get the type of the notification being broadcast.
+     */
+    public function broadcastType(): string
+    {
+        return 'job.created';
+    }
+
+    /**
      * Get the notification's database type.
      *
      * @param  object  $notifiable
@@ -74,5 +95,4 @@ class JobCreatedNotification extends Notification
     {
         return 'job-created';
     }
-
 }

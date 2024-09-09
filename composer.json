@@ -12,6 +12,7 @@
         "laravel/vonage-notification-channel": "^3.3",
         "livewire/livewire": "^3.4",
         "livewire/volt": "^1.0",
+        "pusher/pusher-php-server": "^7.2",
         "vonage/client": "^4.0"
     },
     "require-dev": {

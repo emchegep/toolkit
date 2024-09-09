@@ -4,9 +4,9 @@ namespace App\Actions;
 
 class RecordActivity
 {
-    public function __invoke(string $message): void
+    public function __invoke(string $message)
     {
-        auth()->user()->activities()->create([
+        return auth()->user()->activities()->create([
             'ip' => request()->ip(),
             'description' => $message,
         ]);

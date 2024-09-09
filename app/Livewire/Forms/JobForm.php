@@ -41,10 +41,10 @@ class JobForm extends Form
 
         $logoPath = $this->logo->store(path: 'photos');
 
-        $employer = auth()->user()->employers()->where('name',$this->employer)->first();
+        $employer = auth()->user()->employer()->where('name',$this->employer)->first();
 
         if (! $employer) {
-            $employer = auth()->user()->employers()->create([
+            $employer = auth()->user()->employer()->create([
                 'name' => $this->employer,
                 'logo' => $logoPath,
             ]);
@@ -55,7 +55,7 @@ class JobForm extends Form
         foreach ($this->tag as $t) {
             $job->tag($t);
         }
-        
+
         $this->reset();
 
         return $job;

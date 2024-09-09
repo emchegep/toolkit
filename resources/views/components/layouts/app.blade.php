@@ -13,16 +13,21 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 
+    <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.1/dist/flowbite.min.css" rel="stylesheet" />
+
     <!-- Styles -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="antialiased font-hanken-grotesk bg-[#FAF9f6] text-black/50">
 <div class=" px-10 max-w-7xl mx-auto pb-20">
     <livewire:navigation />
-    
+
     <main>
         {{ $slot }}
     </main>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.1/dist/flowbite.min.js"></script>
+@stack('scripts')
 </body>
 </html>
